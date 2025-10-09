@@ -1,0 +1,5 @@
+{
+  "name": "Filmmaker Portfolio & AI Editor",
+  "description": "A sleek, modern portfolio website for filmmakers to showcase their photo and video work. It includes an integrated AI-powered tool to edit images using text-based instructions for color grading, lighting adjustments, and composition changes.",
+  "requestFramePermissions": []
+}
