@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Portfolio from './components/Portfolio';
 import AIEditor from './components/AIEditor';
+import AIVideoGenerator from './components/AIVideoGenerator';
 import { View } from './types';
 
 const App: React.FC = () => {
@@ -14,6 +14,7 @@ const App: React.FC = () => {
       <main className="container mx-auto px-4 py-8">
         {currentView === View.Portfolio && <Portfolio />}
         {currentView === View.AIEditor && <AIEditor />}
+        {currentView === View.AIVideoGenerator && <AIVideoGenerator />}
       </main>
       <footer className="text-center py-6 border-t border-gray-800 text-gray-500">
         <p>&copy; 2024 Filmmaker Portfolio. All rights reserved.</p>

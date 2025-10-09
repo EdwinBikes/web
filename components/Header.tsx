@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { View } from '../types';
 
@@ -36,6 +35,9 @@ const Header: React.FC<HeaderProps> = ({ currentView, setCurrentView }) => {
             </button>
             <button onClick={() => setCurrentView(View.AIEditor)} className={navLinkClasses(View.AIEditor)}>
               AI Editor
+            </button>
+            <button onClick={() => setCurrentView(View.AIVideoGenerator)} className={navLinkClasses(View.AIVideoGenerator)}>
+              AI Video
             </button>
           </div>
         </div>
