@@ -1,5 +1,5 @@
 {
-  "name": "Filmmaker Portfolio & AI Editor",
-  "description": "A sleek, modern portfolio website for filmmakers to showcase their photo and video work. It includes an integrated AI-powered tool to edit images using text-based instructions for color grading, lighting adjustments, and composition changes.",
+  "name": "Portafolio de Cineasta y Editor con IA",
+  "description": "Un portafolio web moderno y elegante para que los cineastas muestren su trabajo de fotografía y video. Incluye una herramienta integrada con IA para editar imágenes usando instrucciones de texto para corrección de color, ajustes de iluminación y cambios de composición.",
   "requestFramePermissions": []
 }

@@ -19,7 +19,7 @@ const AIEditor: React.FC = () => {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [originalFile, setOriginalFile] = useState<File | null>(null);
   const [editedImage, setEditedImage] = useState<string | null>(null);
-  const [prompt, setPrompt] = useState<string>('cinematic color grading, warm tones, high contrast');
+  const [prompt, setPrompt] = useState<string>('corrección de color cinematográfica, tonos cálidos, alto contraste');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,7 +39,7 @@ const AIEditor: React.FC = () => {
 
   const handleEdit = useCallback(async () => {
     if (!originalFile || !prompt) {
-      setError('Please upload an image and provide an editing prompt.');
+      setError('Por favor, sube una imagen y proporciona una instrucción de edición.');
       return;
     }
 
@@ -57,16 +57,16 @@ const AIEditor: React.FC = () => {
             if(result){
                 setEditedImage(result);
             } else {
-                setError('The AI could not generate an image. Try a different prompt.');
+                setError('La IA no pudo generar una imagen. Intenta con una instrucción diferente.');
             }
             setIsLoading(false);
         };
         reader.onerror = () => {
-            setError('Failed to read the image file.');
+            setError('Error al leer el archivo de imagen.');
             setIsLoading(false);
         }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+      setError(err instanceof Error ? err.message : 'Ocurrió un error desconocido.');
       setIsLoading(false);
     }
   }, [originalFile, prompt]);
@@ -74,9 +74,9 @@ const AIEditor: React.FC = () => {
   return (
     <section>
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-extrabold tracking-wide">AI Image Editor</h1>
+        <h1 className="text-4xl font-extrabold tracking-wide">Editor de Imágenes con IA</h1>
         <p className="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">
-          Transform your images with AI. Provide an image and describe the changes you want in color, lighting, or composition.
+          Transforma tus imágenes con IA. Sube una imagen y describe los cambios que deseas en color, iluminación o composición.
         </p>
       </div>
 
@@ -84,7 +84,7 @@ const AIEditor: React.FC = () => {
         {/* Input Column */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-2xl space-y-6">
           <div>
-            <label htmlFor="image-upload" className="block text-sm font-medium text-gray-300 mb-2">1. Upload Image</label>
+            <label htmlFor="image-upload" className="block text-sm font-medium text-gray-300 mb-2">1. Sube una Imagen</label>
             <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md">
               <div className="space-y-1 text-center">
                 {originalImage ? (
@@ -94,12 +94,12 @@ const AIEditor: React.FC = () => {
                     <UploadIcon />
                     <div className="flex text-sm text-gray-400">
                       <label htmlFor="file-upload" className="relative cursor-pointer bg-gray-700 rounded-md font-medium text-amber-400 hover:text-amber-300 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-800 focus-within:ring-amber-500 px-2">
-                        <span>Upload a file</span>
+                        <span>Sube un archivo</span>
                         <input id="file-upload" name="file-upload" type="file" className="sr-only" accept="image/*" onChange={handleFileChange} />
                       </label>
-                      <p className="pl-1">or drag and drop</p>
+                      <p className="pl-1">o arrastra y suelta</p>
                     </div>
-                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                    <p className="text-xs text-gray-500">PNG, JPG, GIF hasta 10MB</p>
                   </>
                 )}
               </div>
@@ -107,14 +107,14 @@ const AIEditor: React.FC = () => {
           </div>
           
           <div>
-            <label htmlFor="prompt" className="block text-sm font-medium text-gray-300">2. Describe Your Edit</label>
+            <label htmlFor="prompt" className="block text-sm font-medium text-gray-300">2. Describe tu Edición</label>
             <textarea
               id="prompt"
               rows={4}
               className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm text-white p-2"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="e.g., 'Make the scene look like it's at sunset with golden light'"
+              placeholder="ej., 'Haz que la escena parezca un atardecer con luz dorada'"
             />
           </div>
 
@@ -124,13 +124,13 @@ const AIEditor: React.FC = () => {
             className="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-black bg-amber-400 hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-amber-500 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
           >
             {isLoading ? <Spinner /> : <WandIcon />}
-            {isLoading ? 'Editing...' : 'Generate Edit'}
+            {isLoading ? 'Editando...' : 'Generar Edición'}
           </button>
         </div>
 
         {/* Output Column */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-2xl h-full flex flex-col justify-center items-center min-h-[400px]">
-          <h2 className="text-lg font-medium text-gray-300 mb-4">Result</h2>
+          <h2 className="text-lg font-medium text-gray-300 mb-4">Resultado</h2>
           <div className="w-full h-full flex items-center justify-center bg-gray-900/50 rounded-md border-2 border-gray-700 border-dashed">
             {isLoading && <Spinner large={true} />}
             {error && <p className="text-red-400 text-center p-4">{error}</p>}
@@ -138,7 +138,7 @@ const AIEditor: React.FC = () => {
               <img src={editedImage} alt="Edited result" className="max-w-full max-h-full object-contain rounded-md" />
             )}
             {!isLoading && !editedImage && !error && (
-              <p className="text-gray-500">Your edited image will appear here</p>
+              <p className="text-gray-500">Tu imagen editada aparecerá aquí</p>
             )}
           </div>
         </div>

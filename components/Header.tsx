@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { View } from '../types';
 
@@ -27,17 +28,17 @@ const Header: React.FC<HeaderProps> = ({ currentView, setCurrentView }) => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <FilmReelIcon className="h-8 w-8 text-amber-400" />
-            <span className="ml-3 text-xl font-bold tracking-wider text-white">FILMMAKER</span>
+            <span className="ml-3 text-xl font-bold tracking-wider text-white">CINEASTA</span>
           </div>
           <div className="flex items-center space-x-2">
             <button onClick={() => setCurrentView(View.Portfolio)} className={navLinkClasses(View.Portfolio)}>
-              Portfolio
+              Portafolio
             </button>
             <button onClick={() => setCurrentView(View.AIEditor)} className={navLinkClasses(View.AIEditor)}>
-              AI Editor
+              Editor IA
             </button>
             <button onClick={() => setCurrentView(View.AIVideoGenerator)} className={navLinkClasses(View.AIVideoGenerator)}>
-              AI Video
+              Video IA
             </button>
           </div>
         </div>

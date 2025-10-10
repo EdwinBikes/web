@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { generateVideoFromImage } from '../services/geminiService';
 import Spinner from './Spinner';
@@ -15,20 +16,20 @@ const FilmIcon = () => (
 );
 
 const loadingMessages = [
-    "Contacting the AI director...",
-    "Storyboard is in progress...",
-    "The AI is setting up the camera...",
-    "Rendering the first frames...",
-    "Adding special effects...",
-    "This can take a few minutes, please wait...",
-    "Finalizing the video...",
+    "Contactando al director de IA...",
+    "El storyboard está en progreso...",
+    "La IA está preparando la cámara...",
+    "Renderizando los primeros fotogramas...",
+    "Añadiendo efectos especiales...",
+    "Esto puede tardar unos minutos, por favor espera...",
+    "Finalizando el video...",
 ];
 
 const AIVideoGenerator: React.FC = () => {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [originalFile, setOriginalFile] = useState<File | null>(null);
   const [generatedVideoUrl, setGeneratedVideoUrl] = useState<string | null>(null);
-  const [prompt, setPrompt] = useState<string>('animate this image with a gentle breeze making the leaves sway');
+  const [prompt, setPrompt] = useState<string>('anima esta imagen con una suave brisa que mece las hojas');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState<string>(loadingMessages[0]);
@@ -71,7 +72,7 @@ const AIVideoGenerator: React.FC = () => {
 
   const handleGenerate = useCallback(async () => {
     if (!originalFile || !prompt) {
-      setError('Please upload an image and provide a prompt.');
+      setError('Por favor, sube una imagen y proporciona una instrucción.');
       return;
     }
 
@@ -89,24 +90,24 @@ const AIVideoGenerator: React.FC = () => {
         const downloadLink = await generateVideoFromImage(base64Data, originalFile.type, prompt);
         
         if (downloadLink) {
-          setLoadingMessage("Almost there! Downloading video...");
+          setLoadingMessage("¡Casi listo! Descargando video...");
           const response = await fetch(`${downloadLink}&key=${process.env.API_KEY}`);
           if(!response.ok) {
-            throw new Error(`Failed to download video: ${response.statusText}`);
+            throw new Error(`Error al descargar el video: ${response.statusText}`);
           }
           const videoBlob = await response.blob();
           const videoUrl = URL.createObjectURL(videoBlob);
           setGeneratedVideoUrl(videoUrl);
         } else {
-          setError('The AI could not generate a video. Try a different prompt or image.');
+          setError('La IA no pudo generar un video. Intenta con una instrucción o imagen diferente.');
         }
         setIsLoading(false);
       };
       reader.onerror = () => {
-        throw new Error('Failed to read the image file.');
+        throw new Error('Error al leer el archivo de imagen.');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+      setError(err instanceof Error ? err.message : 'Ocurrió un error desconocido.');
       setIsLoading(false);
     }
   }, [originalFile, prompt]);
@@ -114,9 +115,9 @@ const AIVideoGenerator: React.FC = () => {
   return (
     <section>
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-extrabold tracking-wide">AI Video Generator</h1>
+        <h1 className="text-4xl font-extrabold tracking-wide">Generador de Video con IA</h1>
         <p className="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">
-          Bring your images to life. Upload a picture, describe the scene, and let AI generate a short video clip.
+          Dale vida a tus imágenes. Sube una foto, describe la escena y deja que la IA genere un videoclip corto.
         </p>
       </div>
 
@@ -124,7 +125,7 @@ const AIVideoGenerator: React.FC = () => {
         {/* Input Column */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-2xl space-y-6">
           <div>
-            <label htmlFor="image-upload" className="block text-sm font-medium text-gray-300 mb-2">1. Upload Image</label>
+            <label htmlFor="image-upload" className="block text-sm font-medium text-gray-300 mb-2">1. Sube una Imagen</label>
             <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md">
               <div className="space-y-1 text-center">
                 {originalImage ? (
@@ -134,12 +135,12 @@ const AIVideoGenerator: React.FC = () => {
                     <UploadIcon />
                     <div className="flex text-sm text-gray-400">
                       <label htmlFor="file-upload" className="relative cursor-pointer bg-gray-700 rounded-md font-medium text-amber-400 hover:text-amber-300 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-800 focus-within:ring-amber-500 px-2">
-                        <span>Upload a file</span>
+                        <span>Sube un archivo</span>
                         <input id="file-upload" name="file-upload" type="file" className="sr-only" accept="image/*" onChange={handleFileChange} />
                       </label>
-                      <p className="pl-1">or drag and drop</p>
+                      <p className="pl-1">o arrastra y suelta</p>
                     </div>
-                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                    <p className="text-xs text-gray-500">PNG, JPG, GIF hasta 10MB</p>
                   </>
                 )}
               </div>
@@ -147,14 +148,14 @@ const AIVideoGenerator: React.FC = () => {
           </div>
           
           <div>
-            <label htmlFor="prompt" className="block text-sm font-medium text-gray-300">2. Describe The Animation</label>
+            <label htmlFor="prompt" className="block text-sm font-medium text-gray-300">2. Describe la Animación</label>
             <textarea
               id="prompt"
               rows={4}
               className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500 sm:text-sm text-white p-2"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="e.g., 'a drone shot flying slowly through the landscape'"
+              placeholder="ej., 'una toma de dron volando lentamente sobre el paisaje'"
             />
           </div>
 
@@ -164,13 +165,13 @@ const AIVideoGenerator: React.FC = () => {
             className="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-black bg-amber-400 hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-amber-500 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
           >
             {isLoading ? <Spinner /> : <FilmIcon />}
-            {isLoading ? 'Generating...' : 'Generate Video'}
+            {isLoading ? 'Generando...' : 'Generar Video'}
           </button>
         </div>
 
         {/* Output Column */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-2xl h-full flex flex-col justify-center items-center min-h-[400px]">
-          <h2 className="text-lg font-medium text-gray-300 mb-4">Result</h2>
+          <h2 className="text-lg font-medium text-gray-300 mb-4">Resultado</h2>
           <div className="w-full h-full flex items-center justify-center bg-gray-900/50 rounded-md border-2 border-gray-700 border-dashed">
             {isLoading && (
               <div className="text-center">
@@ -183,7 +184,7 @@ const AIVideoGenerator: React.FC = () => {
                 <video src={generatedVideoUrl} controls autoPlay loop className="max-w-full max-h-full object-contain rounded-md" />
             )}
             {!isLoading && !generatedVideoUrl && !error && (
-              <p className="text-gray-500">Your generated video will appear here</p>
+              <p className="text-gray-500">Tu video generado aparecerá aquí</p>
             )}
           </div>
         </div>
