@@ -1,14 +1,11 @@
 import { GoogleGenAI, Modality } from "@google/genai";
 
-// --- CONFIGURACIÓN DE LA API DE GEMINI ---
-if (!process.env.API_KEY) {
-  throw new Error("API_KEY environment variable not set.");
-}
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 // --- SERVICIOS DE IA ---
 
 const editImageWithAI = async (base64ImageData, mimeType, prompt) => {
+  if (!process.env.API_KEY) throw new Error("API_KEY environment variable not set.");
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
@@ -19,7 +16,7 @@ const editImageWithAI = async (base64ImageData, mimeType, prompt) => {
         ],
       },
       config: {
-        responseModalities: [Modality.IMAGE, Modality.TEXT],
+        responseModalities: [Modality.IMAGE],
       },
     });
     
@@ -37,6 +34,9 @@ const editImageWithAI = async (base64ImageData, mimeType, prompt) => {
 };
 
 const generateVideoFromImage = async (base64ImageData, mimeType, prompt) => {
+  if (!process.env.API_KEY) throw new Error("API_KEY environment variable not set.");
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  
   try {
     let operation = await ai.models.generateVideos({
       model: 'veo-3.1-fast-generate-preview',
@@ -58,6 +58,9 @@ const generateVideoFromImage = async (base64ImageData, mimeType, prompt) => {
     return downloadLink;
   } catch (error) {
     console.error("Error al generar el video con IA:", error);
+    if (error.message && error.message.includes('Requested entity was not found')) {
+      throw new Error('La clave de API no es válida o no tiene los permisos necesarios.');
+    }
     throw new Error("Fallo al comunicarse con el servicio de video de IA. Inténtalo de nuevo más tarde.");
   }
 };
@@ -220,6 +223,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   video.generateBtn.addEventListener('click', async () => {
+    if (window.aistudio) {
+        const hasKey = await window.aistudio.hasSelectedApiKey();
+        if (!hasKey) {
+            await window.aistudio.openSelectKey();
+        }
+    }
+
     if (!videoFile || !video.prompt.value) {
       showError(video.outputContainer, 'Por favor, sube una imagen y proporciona una instrucción.');
       return;
@@ -230,14 +240,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let msgIndex = 0;
     messageInterval = setInterval(() => {
         msgIndex = (msgIndex + 1) % loadingMessages.length;
-        document.querySelector('#video-output-container .loading-message').textContent = loadingMessages[msgIndex];
+        const msgElement = document.querySelector('#video-output-container .loading-message');
+        if (msgElement) {
+          msgElement.textContent = loadingMessages[msgIndex];
+        }
     }, 5000);
 
     try {
       const base64Data = await fileToBase64(videoFile);
       const downloadLink = await generateVideoFromImage(base64Data, videoFile.type, video.prompt.value);
       if (downloadLink) {
-        document.querySelector('#video-output-container .loading-message').textContent = "¡Casi listo! Descargando video...";
+        const msgElement = document.querySelector('#video-output-container .loading-message');
+        if(msgElement) msgElement.textContent = "¡Casi listo! Descargando video...";
+        
         const response = await fetch(`${downloadLink}&key=${process.env.API_KEY}`);
         if (!response.ok) throw new Error(`Error al descargar el video: ${response.statusText}`);
         const videoBlob = await response.blob();
@@ -247,7 +262,11 @@ document.addEventListener('DOMContentLoaded', () => {
         showError(video.outputContainer, 'La IA no pudo generar un video. Intenta con una instrucción o imagen diferente.');
       }
     } catch (err) {
-      showError(video.outputContainer, err.message);
+      if (err.message.includes('La clave de API no es válida')) {
+          showError(video.outputContainer, 'La clave de API no es válida o no tiene los permisos necesarios. Por favor, selecciona una clave de API válida e inténtalo de nuevo. <a href="https://ai.google.dev/gemini-api/docs/billing" target="_blank" rel="noopener noreferrer" class="text-amber-400 underline">Más información sobre facturación</a>.');
+      } else {
+          showError(video.outputContainer, err.message);
+      }
     } finally {
       clearInterval(messageInterval);
       setLoading(video, false, 'Generar Video');
@@ -273,7 +292,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const setLoading = (ui, isLoading, btnText) => {
     ui.generateBtn.disabled = isLoading;
-    ui.btnText.innerHTML = isLoading ? spinnerHTML(false) + btnText : btnText;
+    const btnContent = ui.generateBtn.querySelector('span');
+    if (isLoading) {
+      btnContent.innerHTML = spinnerHTML(false) + btnText;
+    } else {
+      btnContent.textContent = btnText;
+    }
   };
   
   const showSpinner = (container, message = '') => {
