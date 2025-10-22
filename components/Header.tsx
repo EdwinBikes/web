@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, setCurrentView }) => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <FilmReelIcon className="h-8 w-8 text-amber-400" />
-            <span className="ml-3 text-xl font-bold tracking-wider text-white">CINEASTA</span>
+            <span className="ml-3 text-xl font-bold tracking-wider text-white">Edwin Bikes</span>
           </div>
           <div className="flex items-center space-x-2">
             <button onClick={() => setCurrentView(View.Portfolio)} className={navLinkClasses(View.Portfolio)}>

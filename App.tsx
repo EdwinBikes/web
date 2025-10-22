@@ -29,7 +29,7 @@ const App: React.FC = () => {
       )}
 
       <footer className="text-center py-6 border-t border-gray-800 text-gray-500">
-        <p>&copy; 2024 Portafolio de Cineasta. Todos los derechos reservados.</p>
+        <p>&copy; 2024 Portafolio de Edwin Bikes. Todos los derechos reservados.</p>
       </footer>
     </div>
   );

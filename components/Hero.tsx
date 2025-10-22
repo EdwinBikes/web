@@ -31,7 +31,9 @@ const Hero: React.FC = () => {
           Creando narrativas visuales que cautivan e inspiran. Explora mi último trabajo en cinematografía y fotografía.
         </p>
         <a 
-          href="mailto:contacto@cineasta.com" 
+          href="https://wa.me/573057135213" 
+          target="_blank"
+          rel="noopener noreferrer"
           className="bg-amber-400 text-black font-bold py-3 px-8 rounded-full hover:bg-amber-500 transition-colors duration-300 text-lg shadow-lg hover:shadow-amber-400/30"
         >
           Contáctame
