@@ -107,6 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 4, type: 'image', src: 'https://picsum.photos/seed/filmmaker4/800/600', title: 'Quietud del Bosque', description: 'Rayos de sol atravesando el denso dosel del bosque.' },
     { id: 5, type: 'video', src: 'https://picsum.photos/seed/filmmaker5/800/600', title: 'Espejismo del Desierto', description: 'Ondas de calor que se elevan desde el suelo del desierto.' },
     { id: 6, type: 'image', src: 'https://picsum.photos/seed/filmmaker6/800/600', title: 'Retrato de un Desconocido', description: 'Una foto espontánea de fotografía callejera.' },
+    { id: 7, type: 'image', src: 'https://picsum.photos/seed/filmmaker7/800/600', title: 'Líneas Arquitectónicas', description: 'Vista abstracta de un edificio moderno.' },
+    { id: 8, type: 'video', src: 'https://picsum.photos/seed/filmmaker8/800/600', title: 'Noche Estrellada', description: 'Un timelapse de la vía láctea.' },
+    { id: 9, type: 'image', src: 'https://picsum.photos/seed/filmmaker9/800/600', title: 'Reflejos de Neón', description: 'Luces de la ciudad reflejadas en un charco después de la lluvia.' },
+    { id: 10, type: 'video', src: 'https://picsum.photos/seed/filmmaker10/800/600', title: 'Vuelo del Águila', description: 'Toma aérea siguiendo a un águila en su vuelo majestuoso.' },
+    { id: 11, type: 'image', src: 'https://picsum.photos/seed/filmmaker11/800/600', title: 'Mercado Vibrante', description: 'Escena colorida de un bullicioso mercado local.' },
+    { id: 12, type: 'image', src: 'https://picsum.photos/seed/filmmaker12/800/600', title: 'Caminos Helados', description: 'Un paisaje invernal con un río congelado.' }
   ];
   
   const portfolioGrid = document.querySelector('#portfolio-section .grid');
